@@ -1,0 +1,46 @@
+<html>
+    <head> {{> header}} </head>
+    <body>
+        <div id="copy" class="room-uuid"><p id="room-uuid"></p><img src="/public/img/copy.png"></div>
+        <div id="moves" class="moves"></div>
+
+        <div id="Board" style="width: 400px"></div>
+        <div class="operations-terminal"> </div>
+
+        <script>
+            const code = '{{code}}';
+            const player = '{{color}}';
+            const friend = '{{friend}}'
+            socket.emit("on-join", { code });
+
+            if (friend === "false")
+                document.getElementById("copy").style.display = "none";
+
+            document.getElementById("room-uuid").innerHTML = code;
+            document.getElementById("copy").addEventListener("click", () => {
+                const temp = document.createElement("input");
+                temp.value = code;
+                document.body.appendChild(temp);
+                temp.select();
+                document.execCommand("copy");
+                document.body.removeChild(temp);
+            });
+
+            const operationExit = ({message}) => {
+                const operationsTerminal = document.querySelector(".operations-terminal");
+
+                const commandExit = document.createElement("p");
+                commandExit.innerHTML = message;
+                operationsTerminal.appendChild(commandExit);
+                operationsTerminal.scrollTop = operationsTerminal.scrollHeight;
+            };
+
+            const operationExitClear = () => {
+                const prompt = document.querySelector(".operations-terminal");
+                const lines = prompt.querySelectorAll("p");
+                lines.forEach(line => line.remove());
+            };
+        </script>
+        <script src="/public/script/board.controller.js"></script>
+    </body>
+</html>

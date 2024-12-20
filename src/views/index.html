@@ -1,0 +1,37 @@
+<html>
+
+<head> {{> header}} </head>
+
+<body>
+    <div id="user-uuid" class="uuid"></div>
+
+    <div class="content">
+        <h2>Chess<span>Link.</span></h2>
+        <p>Chess<span>Link.</span></p>
+
+        <div class="matchmaking-buttons">
+            <div class="matchmaking" id="matchmaking">
+                <span id="status">
+                    Search Match
+                </span>
+                <div class="loader display-none" id="loader"></div>
+            </div>
+
+            <div class="matchmaking friend" id="friend-match">
+                <span id="status">
+                    Play with friend
+                </span>
+            </div>
+
+            <div class="matchmaking friend-join" id="friend-join">
+                <span id="dynamic">
+                    Join friend
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <script src="/public/script/menu.controller.js"></script>
+</body>
+
+</html>
