@@ -32,8 +32,6 @@ module.exports = (connection) => {
     };
 
     const winUser = ({uuid, reason, friend}) => {
-        console.log({uuid, reason, friend});
-        
         const user = Object.keys(usersConnected).find(key => usersConnected[key].uuid === uuid);
 
         if (friend === "false")
@@ -44,6 +42,9 @@ module.exports = (connection) => {
                 case "win-by-tied":
                     usersConnected[user].pts += .5;
                     break;
+                case "win-by-timeout":
+                        usersConnected[user].pts += .5;
+                        break;
                 case "win-by-disconnected":
                     usersConnected[user].pts += .25;
                     break;

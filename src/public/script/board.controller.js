@@ -4,6 +4,8 @@ var gameHasStarted = false;
 var board = null;
 var game = new Chess();
 var gameOver = false;
+var gameOverTimeOut = false;
+var interval;
 
 (() => {
     if (storage !== null) {
@@ -14,6 +16,30 @@ var gameOver = false;
     socket.emit("connect-user", null);
     return;
 })();
+
+const onStartTimer = ({ message }) => {
+    clearInterval(interval);
+    let timeRemaining = 1 * 60;
+
+    interval = setInterval(() => {
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+
+        operationExitClear();
+
+        operationExit({
+            message: `${message} [${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}]`
+        });
+
+        if (timeRemaining > 0) { timeRemaining-- }
+        else {
+            clearInterval(interval);
+            gameOverTimeOut = true;
+            updateBoard();
+        }
+
+    }, 1000);
+};
 
 const onDragStart = (source, piece, position, orientation) => {
     if (game.game_over()) return false;
@@ -93,6 +119,21 @@ const inGameOver = () => {
     }, 1000);
 };
 
+const inGameTimeout = () => {
+    operationExit({ 
+        message: `<span class='system'>[System]</span> Your opponent took too long to play. You win!`
+    });
+
+    setInterval(() => {
+        socket.emit("win", {
+            code,
+            win_color: player,
+            reason: "win-by-timeout",
+            friend
+        });
+    }, 1000);
+};
+
 const updateBoard = () => {
     operationExitClear();
     var color = "White";
@@ -103,17 +144,18 @@ const updateBoard = () => {
     if (game.in_checkmate()) inGameCheckmate({ color })
     else if (game.in_draw()) inGameDraw()
     else if (gameOver) inGameOver()
+    else if (gameOverTimeOut) inGameTimeout()
     else if (!gameHasStarted) {
         operationExit({ message: "<span class='system'>[System]</span> Waiting for another player join" });
     }
     else {
         if ((color === "White" && player === "white") || 
         (color === "Black" && player === "black")) {
-            operationExit({ 
+            onStartTimer({
                 message: "<span class='system'>[System]</span> Your turn"
             });
         } else {
-            operationExit({ 
+            onStartTimer({ 
                 message: "<span class='system'>[System]</span> Opponent turn"
             });
         }

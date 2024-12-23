@@ -11,6 +11,7 @@ const storage = JSON.parse(localStorage.getItem("uuid") || null);
     }
 
     socket.emit("connect-user", null);
+    location.reload();
     return;
 })();
 
@@ -30,8 +31,6 @@ document.getElementById("friend-match").addEventListener("click", () => {
     statusE.classList.toggle("display-none");
 
     setTimeout(() => {
-        console.log("a");
-        
         socket.emit("matchmaking-friend", {
             uuid: storage.uuid,
             func: "create"
