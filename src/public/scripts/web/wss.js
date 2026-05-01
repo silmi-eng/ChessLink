@@ -1,5 +1,6 @@
 const room = window.location.pathname.split("/").pop();
-const ws = new WebSocket(`ws://${window.location.host}?room=${room}`);
+const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+const ws = new WebSocket(`${protocol}//${window.location.host}?room=${room}`);
 const chessBoard = new ChessBoardEvents();
 
 ws.onmessage = (event) => {
