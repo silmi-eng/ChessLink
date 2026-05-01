@@ -16,7 +16,9 @@ class ChessBoardEvents {
             pieceTheme: '/public/assets/chesspieces/{piece}.png'
         }
 
-        this.callback_movements = () => {}
+        this.callback_movements = () => {};
+
+        document.getElementById("resign-game").addEventListener("click", () => window.location.replace("/"))
     }
 
     opMovement = ({ movement }) => {
