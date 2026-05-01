@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ChessLink</title>
+    <link rel="shortcut icon" href="/public/assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/public/css/index.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+    <div class="user-uuid">{{user_uuid}}</div>
+    <h1 class="displayed-title">Chess<span>Link</span></h1>
+    <p class="displayed-subtitle">Chess<span>Link</span></p>
+
+    <div class="buttons-container">
+        <div class="button-matchmaking button-default" id="button-matchmaking">
+            <div class="message" id="message">Search Match</div> 
+            <div class="loader hiding" id="loader-matchmaking"></div>
+        </div>
+    </div>
+
+    
+    <script src="/public/scripts/events.source.js"></script>
+</body>
+
+</html>

@@ -1,46 +1,40 @@
-<html>
-    <head> {{> header}} </head>
-    <body>
-        <div id="copy" class="room-uuid"><p id="room-uuid"></p><img src="/public/img/copy.png"></div>
-        <div id="moves" class="moves"></div>
+<!DOCTYPE html>
+<html lang="en">
 
-        <div id="Board" style="width: 400px"></div>
-        <div class="operations-terminal"> </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChessLink</title>
+    <link rel="shortcut icon" href="/public/assets/favicon.ico" type="image/x-icon">
+    <script src="/public/scripts/thirdparty/jquery-3.7.0.min.js"></script>
+    <script src="/public/scripts/thirdparty/chessboard-1.0.0.min.js"></script>
+    <script src="/public/scripts/thirdparty/chess-0.10.3.min.js"></script>
 
-        <script>
-            const code = '{{code}}';
-            const player = '{{color}}';
-            const friend = '{{friend}}'
-            socket.emit("on-join", { code });
+    <link rel="stylesheet" href="/public/css/chessboard.css" />
+    <link rel="stylesheet" href="/public/css/board.css" />
+</head>
 
-            if (friend === "false")
-                document.getElementById("copy").style.display = "none";
+<body>
+    <div class="user-uuid">{{user_uuid}}</div>
 
-            document.getElementById("room-uuid").innerHTML = code;
-            document.getElementById("copy").addEventListener("click", () => {
-                const temp = document.createElement("input");
-                temp.value = code;
-                document.body.appendChild(temp);
-                temp.select();
-                document.execCommand("copy");
-                document.body.removeChild(temp);
-            });
+    <div class="board-container">
+        <div class="name-tag" id="opponent-moves">opponent</div>
+        <div id="board" style="width: 400px"></div>
+        <div class="name-tag" id="player-moves">you</div>
+    </div>
 
-            const operationExit = ({message}) => {
-                const operationsTerminal = document.querySelector(".operations-terminal");
+    <div class="informations-container">
+        <div id="table-wrapper">
+            <table class="moves-list-container">
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
 
-                const commandExit = document.createElement("p");
-                commandExit.innerHTML = message;
-                operationsTerminal.appendChild(commandExit);
-                operationsTerminal.scrollTop = operationsTerminal.scrollHeight;
-            };
+        <div class="resign-game">Resign game</div>
+    </div>
 
-            const operationExitClear = () => {
-                const prompt = document.querySelector(".operations-terminal");
-                const lines = prompt.querySelectorAll("p");
-                lines.forEach(line => line.remove());
-            };
-        </script>
-        <script src="/public/script/board.controller.js"></script>
-    </body>
+    <script src="/public/scripts/board.events.js"></script>
+    <script src="/public/scripts/web/wss.js"></script>
+</body>
+
 </html>
