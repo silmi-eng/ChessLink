@@ -27,7 +27,7 @@ ws.onmessage = (event) => {
             chessBoard.opMovement({ movement: parsed.move })
             break;
 
-        case '':
+        case 'wining-disconnected':
             window.location.replace("/match-end/winner/victory-by-forfeiture");
             break;
     }

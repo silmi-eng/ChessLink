@@ -11,9 +11,17 @@ class MatchmakingSystem {
         this.queue.push({ uuid: user_uuid,  mmr: user_mmr,  join_time: Date.now() });
     }
 
+    removeFromQueue = ({ user_uuid }) => {
+        const i = this.queue.findIndex(u => u.uuid === user_uuid);
+        if (i !== -1) this.queue.splice(i, 1);
+    }
+
     matchmaking = ({ user_uuid }) => {
         const result = this.#validateMaxWaitingTime({ user_uuid });
         if (result !== null) return result;
+
+        console.log(this.queue);
+        
 
         for (const match_code of Object.keys(this.matches)) {
             const match = this.matches[match_code];

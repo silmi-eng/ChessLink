@@ -37,6 +37,9 @@ module.exports = (app, express) => {
 
         }, 2000);
 
-        req.on("close", () => { clearInterval(interval) });
+        req.on("close", () => { 
+            matchmakingSystem.removeFromQueue({ user_uuid })
+            clearInterval(interval);
+        });
     });
 };
