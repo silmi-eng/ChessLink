@@ -20,9 +20,6 @@ class MatchmakingSystem {
         const result = this.#validateMaxWaitingTime({ user_uuid });
         if (result !== null) return result;
 
-        console.log(this.queue);
-        
-
         for (const match_code of Object.keys(this.matches)) {
             const match = this.matches[match_code];
             const exists = match.some(p => p.uuid === user_uuid);

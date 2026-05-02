@@ -128,7 +128,6 @@ class ChessBoardEvents {
     
     createMovementsHistory = ({ movements }) => {
         if (movements[0] === undefined || movements.length === 0) return;
-        console.log(this.movements, movements);
         this.movements = [...this.movements, ...movements];
         
         const tbody = document.getElementById("table-body");

@@ -6,13 +6,9 @@ const chessBoard = new ChessBoardEvents();
 ws.onmessage = (event) => {
     const parsed = JSON.parse(event.data);
 
-    console.log(parsed);
-    
-
     switch (parsed.action) {
         case 'define-color':
             chessBoard.defineChessboard({ color: parsed.color, history: parsed.history, fen: parsed.fen }, ({ movement, fen, history }) => {
-                console.log(history);
                 
                 ws.send(JSON.stringify({
                     action: "move",
